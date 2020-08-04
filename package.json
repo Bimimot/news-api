@@ -1,0 +1,19 @@
+{
+  "name": "news-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bimimot/News-API.git"
+  },
+  "author": "Stepan Popov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bimimot/News-API/issues"
+  },
+  "homepage": "https://github.com/Bimimot/News-API#readme"
+}
