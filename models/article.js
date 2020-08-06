@@ -4,34 +4,34 @@ const validatorNpm = require('validator');
 // const { AuthError } = require('../middlewares/errors');
 
 const articleSchema = new mongoose.Schema({
-  keyword:{
-      type: String;
-      required: true;
-      minlength: 2
-  },
-  title:{
-    type: String;
-    required: true;
-    minlength: 2
-  },
-  text:{
-    type: String;
-    required: true;
-    minlength: 2
-  },
-  date:{
-    type: String;
-    required: true;
-    minlength: 10
-  },
-  source:{
-    type: String;
-    required: true;
-    minlength: 2
-  },
-  link:   {
+  keyword: {
     type: String,
-    required: true;
+    required: true,
+    minlength: 2,
+  },
+  title: {
+    type: String,
+    required: true,
+    minlength: 2,
+  },
+  text: {
+    type: String,
+    required: true,
+    minlength: 2,
+  },
+  date: {
+    type: String,
+    required: true,
+    minlength: 10,
+  },
+  source: {
+    type: String,
+    required: true,
+    minlength: 2,
+  },
+  link: {
+    type: String,
+    required: true,
     validate: {
       validator(text) {
         return (validatorNpm.isURL(text));
@@ -40,9 +40,9 @@ const articleSchema = new mongoose.Schema({
     },
   },
 
-  image:   {
+  image: {
     type: String,
-    required: true;
+    required: true,
     validate: {
       validator(text) {
         return (validatorNpm.isURL(text));
@@ -55,7 +55,7 @@ const articleSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, // свойство из коллекции user
     ref: 'user',
     required: true,
-    select: false
+    select: false,
   },
 
 });
