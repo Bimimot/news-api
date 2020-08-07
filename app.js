@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 const express = require('express'); // модуль ноды для http сервера
 const mongoose = require('mongoose'); // модуль ноды для подключения сервера с базой данных
 const bodyParser = require('body-parser'); // модуль ноды для парсинга пост-запросов в нужный (json) формат
@@ -17,8 +17,10 @@ mongoose.connect('mongodb://localhost:27017/news', {
 // eslint-disable-next-line no-unused-vars
 // const { celebrate, Joi, errors } = require('celebrate'); // импорт обработки ошибок при валидации запросов
 // const { NotFoundError, ServerError, BadFormatError } = require('./middlewares/errors'); // импорт конструкторов типовых ошибок
-// const cardsRouter = require('./routes/cards.js'); // импортируем роутер для карточек
+const articlesRouter = require('./routes/articles.js'); // импортируем роутер для карточек
 const usersRouter = require('./routes/users.js'); // импортируем роутер для данных о пользователях
+const rightsRouter = require('./routes/rights.js'); // импортируем роутер для получения прав пользователей - регистрация, авторизация
+
 // const { createUser, login } = require('./controllers/users'); // импорт методов авторизации из контроллера
 // const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
 // const validUrl = require('./routes/valid'); // подключаем функцию проверки url
@@ -27,6 +29,8 @@ app.use(bodyParser.json()); // подключаем сборку JSON-форма
 // app.use(requestLogger); // подключаем логирование запросов
 
 app.use('/users', usersRouter); // подключаем usersRouter
+app.use('/users', articlesRouter); // подключаем usersRouter
+app.use('/', rightsRouter); // подключаем rightsRouter
 
 // app.post('/signin', // подключаем контроллер авторизации
 //   celebrate({
