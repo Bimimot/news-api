@@ -29,7 +29,7 @@ app.use(bodyParser.json()); // подключаем сборку JSON-форма
 // app.use(requestLogger); // подключаем логирование запросов
 
 app.use('/users', usersRouter); // подключаем usersRouter
-app.use('/users', articlesRouter); // подключаем usersRouter
+app.use('/articles', articlesRouter); // подключаем usersRouter
 app.use('/', rightsRouter); // подключаем rightsRouter
 
 // app.post('/signin', // подключаем контроллер авторизации

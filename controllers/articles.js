@@ -19,8 +19,9 @@ module.exports.postArticle = (req, res, next) => {
   const {
     keyword, title, text, date, source, link, image,
   } = req.body;
+  const owner = req.user; // берем id, полученный из милдверы авторизации и подставленный в запрос
   Article.create({
-    keyword, title, text, date, source, link, image,
+    keyword, title, text, date, source, link, image, owner,
   })
     .then((article) => {
       res.send({ message: 'Статья создана', data: article });
@@ -32,7 +33,7 @@ module.exports.postArticle = (req, res, next) => {
 module.exports.deleteArticle = (req, res, next) => {
   const { artId } = req.params;
   const userId = `${req.user._id}`;
-  Article.findById(artId)
+  Article.findById(artId).select('+owner')
     .then((article) => {
       if (article == null) {
         throw new NotFoundError('Карточка с таким id не найдена'); // создаем ошибку и переходим в обработчик ошибок
