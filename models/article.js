@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 const validatorNpm = require('validator');
-// const bcrypt = require('bcryptjs'); // импорт модуля для создания хешей
-// const { AuthError } = require('../middlewares/errors');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -20,9 +18,8 @@ const articleSchema = new mongoose.Schema({
     minlength: 2,
   },
   date: {
-    type: String,
+    type: Date,
     required: true,
-    minlength: 10,
   },
   source: {
     type: String,

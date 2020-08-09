@@ -1,8 +1,5 @@
-// const bcrypt = require('bcryptjs'); // импорт модуля для создания хешей
-// const jwt = require('jsonwebtoken'); // импорт модуля для создания токенов
 const User = require('../models/user'); // импорт схемы
-// const { cryptoKey } = require('../key'); // импорт ключа для зашифровки токена
-// const { NotFoundError, DoubleDataError } = require('../middlewares/errors');
+const { NotFoundError } = require('../helpers/errors');
 
 // поиск всех пользователей
 module.exports.getUser = (req, res, next) => {
