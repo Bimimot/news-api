@@ -20,10 +20,10 @@ const articlesRouter = require('./routes/articles.js'); // импортируе�
 const usersRouter = require('./routes/users.js'); // импортируем роутер для данных о пользователях
 const signsRouter = require('./routes/signs.js'); // импортируем роутер для получения прав пользователей - регистрация, авторизация
 
-// const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
+const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
 
 app.use(bodyParser.json()); // подключаем сборку JSON-формата
-// app.use(requestLogger); // подключаем логирование запросов
+app.use(requestLogger); // подключаем логирование запросов
 
 app.use('/users', usersRouter); // подключаем usersRouter
 app.use('/articles', articlesRouter); // подключаем usersRouter
@@ -33,7 +33,7 @@ app.use((req, res, next) => { // генерируем ошибку если за
   next(new NotFoundError('Такой ресурс не найден'));
 });
 
-// app.use(errorLogger); // подключаем логирование ошибок
+app.use(errorLogger); // подключаем логирование ошибок
 
 // обработка ошибок, сюда переходим из блоков catch
 app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

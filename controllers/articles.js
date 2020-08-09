@@ -1,5 +1,5 @@
 const Article = require('../models/article'); // импорт схемы
-// const { NotFoundError, DoubleDataError } = require('../middlewares/errors');
+const { NotFoundError, AccessDeniedError } = require('../middlewares/errors');
 
 // поиск всех статей пользователя
 module.exports.getArticles = (req, res, next) => {
