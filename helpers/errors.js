@@ -1,5 +1,5 @@
-/* eslint-disable max-len */
-/* eslint-disable max-classes-per-file */
+/* eslint max-classes-per-file: ["error", 6] */
+
 class BadFormatError extends Error { // данные переданы в неверном формате
   constructor(message) {
     super(message);

@@ -29,8 +29,7 @@ app.use((req, res, next) => { // генерируем ошибку если за
 
 app.use(errorLogger); // подключаем логирование ошибок
 
-// обработка ошибок, сюда переходим из блоков catch
-app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+function errhandler(err, res) {
   if (err.joi || (err.name === 'CastError')
   || (err.name === 'ValidationError')
   || (err.name === 'MongoError')) {
@@ -45,6 +44,12 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
     );
   }
   return res.status(err.statusCode).send({ message: err.message, status: err.statusCode });
+}
+
+// обработка ошибок, сюда переходим из блоков catch
+app.use((err, req, res, next) => {
+  errhandler(err, res); // подключаем функцию централизованной обработки ошибок
+  next();
 });
 
 app.listen(PORT); // начинаем слушать заданный порт
