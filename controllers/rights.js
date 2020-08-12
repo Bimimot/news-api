@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs'); // импорт модуля для созд
 const jwt = require('jsonwebtoken'); // импорт модуля для создания токенов
 const User = require('../models/user'); // импорт схемы
 const { cryptoKey } = require('../helpers/key'); // импорт ключа для зашифровки токена
-const { DoubleDataError } = require('../helpers/errors');
 
 // создание пользователя
 module.exports.signUp = (req, res, next) => {
@@ -23,11 +22,7 @@ module.exports.signUp = (req, res, next) => {
         },
       },
     ))
-    .catch((err) => {
-      // eslint-disable-next-line no-param-reassign
-      if (err.code === 11000) { err = new DoubleDataError('Пользователь с таким email уже существует'); }
-      next(err);
-    });
+    .catch(next);
 };
 
 // авторизация пользователя

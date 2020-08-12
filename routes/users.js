@@ -1,5 +1,4 @@
 const router = require('express').Router();
-// const { celebrate, Joi } = require('celebrate'); // подключаем библиотеку для валидации запросов
 const auth = require('../middlewares/auth'); // подключаем мидлвэру авторизации
 
 const { getUser } = require('../controllers/users'); // импорт методов из контроллера

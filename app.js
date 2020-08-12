@@ -21,7 +21,7 @@ const routes = require('./routes/index.js'); // подключаем роуте�
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
 
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // за 1 секунду
+  windowMs: 1000, // за 1 секунду
   max: 1, // можно совершить максимум 1 запрос с одного IP
 });
 
