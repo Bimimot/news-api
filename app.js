@@ -14,20 +14,14 @@ mongoose.connect('mongodb://localhost:27017/news', {
   useFindAndModify: false,
 });
 
-// eslint-disable-next-line no-unused-vars
 const { NotFoundError, ServerError, BadFormatError } = require('./helpers/errors'); // импорт конструкторов типовых ошибок
-const articlesRouter = require('./routes/articles.js'); // импортируем роутер для карточек
-const usersRouter = require('./routes/users.js'); // импортируем роутер для данных о пользователях
-const signsRouter = require('./routes/signs.js'); // импортируем роутер для получения прав пользователей - регистрация, авторизация
-
+const routes = require('./routes/index.js'); // подключаем роутеры
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
 
 app.use(bodyParser.json()); // подключаем сборку JSON-формата
 app.use(requestLogger); // подключаем логирование запросов
 
-app.use('/users', usersRouter); // подключаем usersRouter
-app.use('/articles', articlesRouter); // подключаем usersRouter
-app.use('/', signsRouter); // подключаем rightsRouter
+app.use('/', routes);
 
 app.use((req, res, next) => { // генерируем ошибку если запрос на несуществующую страницу
   next(new NotFoundError('Такой ресурс не найден'));
