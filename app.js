@@ -21,7 +21,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger'); // по�
 app.use(bodyParser.json()); // подключаем сборку JSON-формата
 app.use(requestLogger); // подключаем логирование запросов
 
-app.use('/', routes);
+app.use('/api', routes);
 
 app.use((req, res, next) => { // генерируем ошибку если запрос на несуществующую страницу
   next(new NotFoundError('Такой ресурс не найден'));
