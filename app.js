@@ -3,7 +3,6 @@ const express = require('express'); // модуль ноды для http сер�
 const mongoose = require('mongoose'); // модуль ноды для подключения сервера с базой данных
 const bodyParser = require('body-parser'); // модуль ноды для парсинга пост-запросов в нужный (json) формат
 
-const { NODE_ENV } = process.env;
 const app = express();
 const { PORT = 3000 } = process.env;
 
@@ -14,7 +13,8 @@ mongoose.connect('mongodb://localhost:27017/news', {
   useFindAndModify: false,
 });
 
-const { NotFoundError, ServerError, BadFormatError } = require('./helpers/errors'); // импорт конструкторов типовых ошибок
+const { NotFoundError } = require('./helpers/errors'); // импорт конструкторов типовых ошибок
+const errhandler = require('./helpers/errhandler'); // импорт централизованного оработчика ошибок
 const routes = require('./routes/index.js'); // подключаем роутеры
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
 
@@ -28,23 +28,6 @@ app.use((req, res, next) => { // генерируем ошибку если за
 });
 
 app.use(errorLogger); // подключаем логирование ошибок
-
-function errhandler(err, res) {
-  if (err.joi || (err.name === 'CastError')
-  || (err.name === 'ValidationError')
-  || (err.name === 'MongoError')) {
-    err = new BadFormatError( // eslint-disable-line no-param-reassign
-      (NODE_ENV !== 'production') ? err : 'В запросе указаны неправильные данные', // для режима разработки возвращаем полный текст ошибки
-    );
-  }
-
-  if (!err.statusCode) {
-    err = new ServerError( // eslint-disable-line no-param-reassign
-      (NODE_ENV !== 'production') ? err : 'На сервере произошла ошибка', // для режима разработки возвращаем полный текст ошибки
-    );
-  }
-  return res.status(err.statusCode).send({ message: err.message, status: err.statusCode });
-}
 
 // обработка ошибок, сюда переходим из блоков catch
 app.use((err, req, res, next) => {
