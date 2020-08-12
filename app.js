@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express'); // модуль ноды для http сервера
 const rateLimit = require('express-rate-limit'); // модуль ноды для огранчиения кол-во запросов, защита от DDoS
+const helmet = require('helmet'); // модуль ноды для установки заголовков безопасности
 const mongoose = require('mongoose'); // модуль ноды для подключения сервера с базой данных
 const bodyParser = require('body-parser'); // модуль ноды для парсинга пост-запросов в нужный (json) формат
 
@@ -25,6 +26,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter); // подключаем защиту от DDoS
+app.use(helmet()); // устанавливаем заголовки безопасности
 app.use(bodyParser.json()); // подключаем сборку JSON-формата
 app.use(requestLogger); // подключаем логирование запросов
 
