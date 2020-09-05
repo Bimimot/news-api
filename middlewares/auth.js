@@ -13,6 +13,14 @@ module.exports = (req, res, next) => {
   }
 
   const token = authorization.replace('Bearer ', ''); // убираем тип токена из заголовка, чтобы остался чистый токен
+      
+  
+  // const token = req.cookies.jwt;
+      
+  //     if (!token) {
+  //       next(new AuthError('Необходима авторизация'));
+  //     }
+
   let payload;
 
   try {

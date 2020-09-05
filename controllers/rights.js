@@ -22,6 +22,7 @@ module.exports.signUp = (req, res, next) => {
         },
       },
     ))
+    
     .catch(next);
 };
 
@@ -32,8 +33,8 @@ module.exports.signIn = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, cryptoKey, { expiresIn: '7d' }); // создали токен со сроком действия 7 дней
-      res.cookie('JWT', token, { maxAge: 604800000, httpOnly: true, SameSite: 'Lax' });
-      res.send({ message: 'Пользователь авторизован' });
+      // res.cookie('JWT', token, { maxAge: 604800000, domain: '', httpOnly: true, /*SameSite: 'Lax'*/ });
+      res.send({ message: 'Пользователь авторизован', status: 200, token: token });
     })
     .catch(next);
 };

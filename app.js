@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express'); // модуль ноды для http сервера
+const cors = require('cors'); // модуль для настройки CORS-правил
 const rateLimit = require('express-rate-limit'); // модуль ноды для огранчиения кол-во запросов, защита от DDoS
 const helmet = require('helmet'); // модуль ноды для установки заголовков безопасности
 const mongoose = require('mongoose'); // модуль ноды для подключения сервера с базой данных
@@ -21,13 +22,25 @@ const routes = require('./routes/index.js'); // подключаем роуте�
 const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
 
 const limiter = rateLimit({
-  windowMs: 1000, // за 1 секунду
-  max: 1, // можно совершить максимум 1 запрос с одного IP
+  windowMs: 1000, // 1 секундa
+  max: 2, // можно совершить максимум 2 запроса с одного IP
 });
+
+const whitelist = ['http://localhost:8080', 'http://newsfinder.tk', 'https://newsfinder.tk', 'https://bimimot.github.io/News-frontend' ]; // настройка cors
+const corsOptions = {
+  origin(origin, callback) {
+    if (whitelist.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
 
 app.use(limiter); // подключаем защиту от DDoS
 app.use(helmet()); // устанавливаем заголовки безопасности
 app.use(bodyParser.json()); // подключаем сборку JSON-формата
+app.use(cors(corsOptions));
 app.use(requestLogger); // подключаем логирование запросов
 
 app.use('/api', routes); // подключаем api
