@@ -23,7 +23,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger'); // по�
 
 const limiter = rateLimit({
   windowMs: 1000, // 1 секундa
-  max: 2, // можно совершить максимум 2 запроса с одного IP
+  max: 5, // можно совершить максимум 2 запроса с одного IP
 });
 
 const whitelist = ['http://localhost:8080', 'http://newsfinder.tk', 'https://newsfinder.tk', 'https://bimimot.github.io/News-frontend' ]; // настройка cors

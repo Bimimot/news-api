@@ -6,6 +6,6 @@ const signsRouter = require('./signs.js'); // импортируем роуте�
 
 router.use('/users', usersRouter); // подключаем usersRouter
 router.use('/articles', articlesRouter); // подключаем usersRouter
-router.use('/', signsRouter); // подключаем rightsRouter
+router.use('/', signsRouter); // подключаем signsRouter
 
 module.exports = router;
