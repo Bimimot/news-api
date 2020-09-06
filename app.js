@@ -27,23 +27,23 @@ const limiter = rateLimit({
 });
 
 const whitelist = 
-['http://localhost:8080', 'https://bimimot.github.io/News-frontend', 'https://bimimot.github.io/News-frontend/', 'http://newsfinder.tk', 'https://newsfinder.tk' ]; // настройка cors
+['http://localhost:8080', 'https://bimimot.github.io/News-frontend', 'https://bimimot.github.io/News-frontend/', 'http://newsfinder.tk', 'https://newsfinder.tk']; // настройка cors
 
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.includes(origin) || !origin) {
       callback(null, true);
     } else {
-      callback(null, true);
-      // callback(new Error('Not allowed by CORS'));
+      callback(new Error('Not allowed by CORS'));
     }
   },
 };
 
-app.use(limiter); // подключаем защиту от DDoS
-// app.use(helmet()); // устанавливаем заголовки безопасности
-app.use(bodyParser.json()); // подключаем сборку JSON-формата
 app.use(cors(corsOptions));
+app.use(limiter); // подключаем защиту от DDoS
+app.use(helmet()); // устанавливаем заголовки безопасности
+app.use(bodyParser.json()); // подключаем сборку JSON-формата
+
 app.use(requestLogger); // подключаем логирование запросов
 
 app.use('/api', routes); // подключаем api
