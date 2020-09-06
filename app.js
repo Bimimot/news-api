@@ -26,7 +26,9 @@ const limiter = rateLimit({
   max: 5, // можно совершить максимум 2 запроса с одного IP
 });
 
-const whitelist = ['http://localhost:8080', 'http://newsfinder.tk', 'https://newsfinder.tk', 'https://bimimot.github.io/News-frontend/' ]; // настройка cors
+const whitelist = 
+['http://localhost:8080', 'https://bimimot.github.io/News-frontend', 'https://bimimot.github.io/News-frontend/', 'http://newsfinder.tk', 'https://newsfinder.tk' ]; // настройка cors
+
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.includes(origin) || !origin) {
