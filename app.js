@@ -27,11 +27,11 @@ const limiter = rateLimit({
 });
 
 const whitelist = 
-['http://localhost:8080', 'https://bimimot.github.io/News-frontend', 'https://bimimot.github.io/News-frontend/', 'http://newsfinder.tk', 'https://newsfinder.tk']; // настройка cors
+['http://localhost:8080', 'https://bimimot.github.io', 'https://bimimot.github.io/', 'https://bimimot.github.io/News-frontend/']; // настройка cors
 
 const corsOptions = {
   origin(origin, callback) {
-    if ( (whitelist.indexOf(origin) !== -1) || !origin || (origin === 'https://bimimot.github.io/News-frontend') || (origin === 'https://bimimot.github.io/News-frontend')) {
+    if ( (whitelist.indexOf(origin) !== -1) || !origin ) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
