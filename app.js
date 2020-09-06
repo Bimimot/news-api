@@ -31,14 +31,15 @@ const whitelist =
 
 const corsOptions = {
   origin(origin, callback) {
-    if (whitelist.includes(origin) || !origin) {
+    console.log(origin);
+    if ( (whitelist.indexOf(origin) !==-1) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
 };
-
+app.options('*', cors())
 app.use(cors(corsOptions));
 app.use(limiter); // подключаем защиту от DDoS
 app.use(helmet()); // устанавливаем заголовки безопасности
