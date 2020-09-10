@@ -21,8 +21,10 @@ router.post('/', celebrate({
   }),
 }), postArticle); // вызываем метод добавления статьи
 
-router.delete('/:artId', celebrate({
-  params: Joi.object().keys({ artdId: Joi.string().hex().length(24) }),
-}), deleteArticle); // вызываем метод удаления статьи
+router.delete('/:artId', 
+celebrate({
+  params: Joi.object().keys({ artId: Joi.string().hex().length(24) }),
+}),
+ deleteArticle); // вызываем метод удаления статьи
 
 module.exports = router;
