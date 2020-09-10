@@ -26,12 +26,11 @@ const limiter = rateLimit({
   max: 30, // можно совершить максимум 30 запросов с одного IP
 });
 
-const whitelist = 
-['http://localhost:8080', 'https://bimimot.github.io', 'https://bimimot.github.io/', 'https://bimimot.github.io/News-frontend/']; // настройка cors
+const whitelist = ['http://localhost:8080', 'https://bimimot.github.io', 'https://bimimot.github.io/', 'https://bimimot.github.io/News-frontend/']; // настройка cors
 
 const corsOptions = {
   origin(origin, callback) {
-    if ( (whitelist.indexOf(origin) !== -1) || !origin ) {
+    if ((whitelist.indexOf(origin) !== -1) || !origin) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
