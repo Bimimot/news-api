@@ -33,7 +33,7 @@ const articleSchema = new mongoose.Schema({
       validator(text) {
         return (validatorNpm.isURL(text));
       },
-      message: (props) => `${props.value} Это неправильная ссылка на статью`,
+      message: (props) => `${props.value} It's the wrong url for an article`,
     },
   },
 
@@ -44,12 +44,12 @@ const articleSchema = new mongoose.Schema({
       validator(text) {
         return (validatorNpm.isURL(text));
       },
-      message: (props) => `${props.value} Это неправильная ссылка на фото`,
+      message: (props) => `${props.value} It's the wrong url for an foto`,
     },
   },
 
   owner: {
-    type: mongoose.Schema.Types.ObjectId, // свойство из коллекции user
+    type: mongoose.Schema.Types.ObjectId, // property from user
     ref: 'user',
     required: true,
     select: false,

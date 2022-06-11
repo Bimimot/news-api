@@ -1,9 +1,8 @@
-const bcrypt = require('bcryptjs'); // импорт модуля для создания хешей
-const jwt = require('jsonwebtoken'); // импорт модуля для создания токенов
-const User = require('../models/user'); // импорт схемы
-const { cryptoKey } = require('../helpers/key'); // импорт ключа для зашифровки токена
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+const { cryptoKey } = require('../helpers/key');
 
-// создание пользователя
 module.exports.signUp = (req, res, next) => {
   const {
     name, email, password,
@@ -14,7 +13,7 @@ module.exports.signUp = (req, res, next) => {
     }))
     .then((user) => res.send(
       {
-        message: 'Пользователь зарегистрирован',
+        message: 'Success! User was created',
         data: {
           _id: user._id,
           name: user.name,
@@ -26,15 +25,14 @@ module.exports.signUp = (req, res, next) => {
     .catch(next);
 };
 
-// авторизация пользователя
-
 module.exports.signIn = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id, name: user.name }, cryptoKey, { expiresIn: '7d' }); // создали токен со сроком действия 7 дней
+      const token = jwt.sign({ _id: user._id, name: user.name }, cryptoKey, { expiresIn: '7d' }); // make token with 7 days expiration
+      // eslint-disable-next-line max-len
       // res.cookie('JWT', token, { maxAge: 604800000, domain: '', httpOnly: true, /*SameSite: 'Lax'*/ });
-      res.send({ message: 'Пользователь авторизован', status: 200, token });
+      res.send({ message: 'Success! User is authorized', status: 200, token });
     })
     .catch(next);
 };

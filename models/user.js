@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validatorNpm = require('validator');
-const bcrypt = require('bcryptjs'); // импорт модуля для создания хешей
+const bcrypt = require('bcryptjs');
 const { AuthError } = require('../helpers/errors');
 
 const userSchema = new mongoose.Schema({
@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     validator(text) {
       return (validatorNpm.isEmail(text));
     },
-    message: (props) => `${props.value} Неверно указана электронная почта`,
+    message: (props) => `${props.value} Email is wrong`,
   },
   password: {
     type: String,
@@ -28,19 +28,19 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.statics.findUserByCredentials = function checkUser(email, password) {
-  return this.findOne({ email }).select('+password') // при вызове метода указываем, что в объект необходимо добавить  пароль для обработки и получения токена
+  return this.findOne({ email }).select('+password') // object must have password
     .then((user) => {
       if (!user) {
         return Promise.reject(new AuthError('Неправильные почта или пароль'));
       }
 
-      return bcrypt.compare(password, user.password) // сравнение хэшей
+      return bcrypt.compare(password, user.password) // hashs comparing
 
         .then((matched) => {
           if (!matched) {
-            return Promise.reject(new AuthError('Неправильные почта или пароль'));
+            return Promise.reject(new AuthError('Email or password is wrong'));
           }
-          return user; // возвращаем объект user для использования в контроллерах
+          return user; // return user for controllers
         });
     });
 };
