@@ -1,75 +1,64 @@
 News-API
 -----------
-v.1.0
-Это бэкенд дипломного проекта,
-выполненный в ходе обучения в Яндекс.Практикуме
-на факультете веб-разработки
+v.1.0.1
+It's a backend for News-Finder project.
+It was done during the training in the Yandex.Practicum.
 
 
-АДРЕС
+URL
 -----------
-- newsfinder.tk/api
-- 185.185.68.50/api
+- stepan-popov.dev/news-api
+- 141.8.198.35/news-api
 
 
-МЕТОДЫ REST API
+Methods
 -----------
-| **Метод**  | **Адрес**       |  **Тело запроса**					      			  |  **Результат**                                        |
+| **Method** | **Routes**      |  **Body**			        		      			  |  **Response/Action**                                  |
 |------------|-----------------|------------------------------------------------------|-------------------------------------------------------|
-|   GET      |   /users/me     |  {} 											      |  возвращает информацию о пользователе (email и имя)   |
-|   GET      |   /articles     |  {} 		  									      |  возвращает все сохранённые пользователем статьи      |
-|   POST     |   /articles     |  {keyword, title, text, date, source, link и image}  |  сохраняет статью с переданными в теле атрибутами     |
-|   DELETE   |   /articles/{id}|  {} 	          				      				  |  удаляет сохранённую статью  по _id                   |
-|   POST     |   /signin       |  {email, password}				      				  |  авторизация пользователя			      			  |
-|   POST     |   /signup	   |  {email, password, name}  							  |  создание нового пользователя			              |
+|   GET      |   /users/me     |  {} 											      |  Info about user (name, email)                        |
+|   GET      |   /articles     |  {} 		  									      |  User's articles                                      |
+|   POST     |   /articles     |  {keyword, title, text, date, source, link и image}  |  Save the new article                                 |
+|   DELETE   |   /articles/{id}|  {} 	          				      				  |  Del thee article with  по _id                        |
+|   POST     |   /signin       |  {email, password}				      				  |  Login			      			                      |
+|   POST     |   /signup	   |  {email, password, name}  							  |  Registration                                         |
 
 
-ДОСТУП К API
+Authorization
 -----------
-Все маршруты API защищены авторизацией.
-Удаление статьи доступно только авторизованному пользователю, сохранившему эту статью.
+All methods need auth
+Delete method is available only to the author
 
 
-ОБРАБОТКА ОШИБОК
+Errors handler
 -----------
-Реализована централизованная обработка ошибок и вывод кастомных сообщения в случаях:
 
-| **Код ошибки**  |  **Сообщение**                        		|  **Причины**    		                 					 					 		   |  
+| **Err code**    |  **Message**                        		|  **Reasons**    		                 					 					 		   |  
 |-----------------|---------------------------------------------|------------------------------------------------------------------------------------------|
-|   400	          |  В запросе указаны неправильные данные		|  Данные, переданные в теле запросе, не прошли валидацию 						     	   |
-|   401           |  Необходима авторизация               		|  В заголовке запроса нет авторизации, тип авторизации не Bearer, передан неверный токен  |
-|   401           |  Неправильные почта или пароль        		|  При обращении на маршрут /signin переданы неверный email либо пароль 		   		   |
-|   403           |  Нет прав на удаление этой статьи   		|  Метод DEL по маршруту /articles/{id} вызван не владельцем статьи 	  	 	  		   |
-|   404           |  Статьи не найдены			         		|  Вызов метода GET по маршруту /articles не принес результата							   |
-|   404           |  Пользователь не найден			       		|  Вызов метода GET по маршруту /users/me не принес результата			   	 	   		   |
-|   404           |  Карточка с таким id не найдена	       		|  Вызов метода DEL по маршруту /articles/{id} с несуществуюзщим id		   	 	   		   |
-|   404           |  Такой ресурс не найден		      		 	|  Запрос по несуществующему адресу					   	 	   							   |
-|   409           |  Пользователь с таким email уже существует 	|  Вызов метода POST по маршруту /signup с неуникальным email		  	 	   			   |
-|   500           |  На сервере произошла ошибка       	  		|  Любая иная ошибка при обработке запроса				 	 	  						   |
+|   400	          |  Request data is not valid          		|  Data from response wasn't validated 						     	                       |
+|   401           |  Authorization is needed               		|  No authorization header, or type of autorization isn't Bearer, or token is wrong        |
+|   401           |  Email or password is wrong         		|  Sending wrong data to /signin route                                                     |
+|   403           |  No rights to delete this article   		|  Method DEL with route /articles/{id} was called not by author     	  	 	  		   |
+|   404           |  No articles    			         		|  Method GET with route /articles return nothing							               |
+|   404           |  No user            			       		|  Method GET with route /users/me return nothing			   	 	   		               |
+|   404           |  No card with this ID       	       		|  Method DEL with route /articles/{id} was called with wrong id		   	 	   		   |
+|   404           |  Sorry, but URL is wrong	      		 	|  Call the wrong url					   	 	   					            		   |
+|   409           |  Sorry, we have user with the same e-mail 	|  Method POST with route /signup was called with non-unique e-mail	  	 	   			   |
+|   500           |  Sorry, we have an server error    	  		|  Any other error with request				 	 	  						   |
 
+In the dev mode server return full err-message for codes 400 и 500.
 
-В режиме разработки (NODE_ENV !== 'production') для ошибок 400 и 500 возвращается полный текст ошибки без замены на кастомное сообщение.
-
-
-РЕШЕННЫЕ ЗАДАЧИ
+Project's tasks
 -----------
 
-- созданы схемы и модели Mongo
-- созданы контроллеры и роутуы для указанных методов
-- передаваемые значения корректно валидируются
-- пароли в базе хранятся в захешированном виде
-- создана мидлвэра авторизации, маршрурты закрыты авторизацией
-- исключена возможность удаления чужих карточек
-- хеша пароля возвращается из базы только при аутентификации
-- реализована мидлвэра централизованной обработки ошибок
-- реализовано логирование запросов и ошибок в файлах request.log и error.log
-- API поднято на облачном сервере, настроен nginx
-- создан сервер с базой данных Mongo 
-- подключены сертификаты для работы по https
-- настроены переменные окружения на сервере в файле .env (ключ для создания токенов, режим работы приложения)
-- настроен CORS
-
-
-АВТОР
------------
-Попов Степан
+- API on the VPS, nginx was configured
+- VPS uses Mongo DB
+- Schemes & models Mongo
+- Controllers & routes for methods
+- Validation response data
+- Autorization middleware to protect all routes
+- Err-hadler middleware
+- Passwords saves like hashs in the DB
+- Logger saves info to the files: request.log и error.log 
+- Сertificate for HTTPS was added 
+- Server has .env file with secret key
+- CORS was configured

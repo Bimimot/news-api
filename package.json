@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bimimot/News-API.git"
+    "url": "git+https://github.com/Bimimot/news-api.git"
   },
-  "author": "Stepan Popov",
+  "author": "Bimimot <bimimot@gmail.com> (https://github.com/Bimimot)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Bimimot/News-API/issues"
+    "url": "https://github.com/Bimimot/news-api/issues"
   },
-  "homepage": "https://github.com/Bimimot/News-API#readme",
+  "homepage": "https://github.com/Bimimot/news-api#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",

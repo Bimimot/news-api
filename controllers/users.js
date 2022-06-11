@@ -1,14 +1,13 @@
-const User = require('../models/user'); // импорт схемы
+const User = require('../models/user');
 const { NotFoundError } = require('../helpers/errors');
 
-// поиск всех пользователей
 module.exports.getUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
       if (user == null) {
-        throw new NotFoundError('Пользователь не найден'); // создаем ошибку и переходим в обработчик ошибок
+        throw new NotFoundError('No user'); // make Err & go to errHandler
       } else {
-        res.send({ message: 'Пользователь найден', data: user });
+        res.send({ message: 'Success! User was finded', data: user });
       }
     })
     .catch(next);

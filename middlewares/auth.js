@@ -1,34 +1,27 @@
 /* eslint-disable consistent-return */
-// отключен запрет линтера на отсутствие return в стрелочной функции
 
-const jwt = require('jsonwebtoken'); // подключаем модуль создания jwt токенов
-const { cryptoKey } = require('../helpers/key'); // импорт ключа для зашифровки токена
+const jwt = require('jsonwebtoken'); // for making jwt-token
+const { cryptoKey } = require('../helpers/key'); // key for dev-mode
 const { AuthError } = require('../helpers/errors');
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith('Bearer ')) { // если в заголовке нет авторизации или она начинается не с Bearer - выводим ошибку
-    throw new AuthError('Необходима авторизация');
+  if (!authorization || !authorization.startsWith('Bearer ')) { // if no auth header or token isn't Bearer show err
+    throw new AuthError('Authorization is needed');
   }
 
-  const token = authorization.replace('Bearer ', ''); // убираем тип токена из заголовка, чтобы остался чистый токен
-
-  // const token = req.cookies.jwt;
-
-  //     if (!token) {
-  //       next(new AuthError('Необходима авторизация'));
-  //     }
+  const token = authorization.replace('Bearer ', '');
 
   let payload;
 
   try {
-    payload = jwt.verify(token, cryptoKey); // расшиифровываем токен ключа, получаем пейлоад
+    payload = jwt.verify(token, cryptoKey); // make payload from token
   } catch (err) {
-    next(new AuthError('Необходима авторизация'));
+    next(new AuthError('Authorization is needed'));
   }
 
-  req.user = payload; // записываем пейлоуд в объект запроса (пейлоуд здесь - это id пользоваателя)
+  req.user = payload; // add payload to request
 
-  next(); // пропускаем запрос дальше
+  next(); // send request further
 };

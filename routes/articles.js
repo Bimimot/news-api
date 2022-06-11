@@ -1,13 +1,13 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate'); // подключаем библиотеку для валидации запросов
+const { celebrate, Joi } = require('celebrate');
 
-const auth = require('../middlewares/auth'); // подключаем мидлвэру авторизации
-const validUrl = require('../helpers/valid'); // подключаем функцию проверки url
-const { getArticles, postArticle, deleteArticle } = require('../controllers/articles'); // импорт методов из контроллера
+const auth = require('../middlewares/auth');
+const validUrl = require('../helpers/valid');
+const { getArticles, postArticle, deleteArticle } = require('../controllers/articles');
 
-router.use(auth); // вызываем авторизацию для всех методов идущих ниже
+router.use(auth); // use auth for all methdos below
 
-router.get('/', getArticles); // вызываем метод получения всех статей пользователя
+router.get('/', getArticles); // get all user's article
 
 router.post('/', celebrate({
   body: Joi.object().keys({
@@ -19,12 +19,12 @@ router.post('/', celebrate({
     link: Joi.string().custom((value) => validUrl(value)).required(),
     image: Joi.string().custom((value) => validUrl(value)).required(),
   }),
-}), postArticle); // вызываем метод добавления статьи
+}), postArticle); // post new article
 
 router.delete('/:artId',
   celebrate({
     params: Joi.object().keys({ artId: Joi.string().hex().length(24) }),
   }),
-  deleteArticle); // вызываем метод удаления статьи
+  deleteArticle); // del article
 
 module.exports = router;

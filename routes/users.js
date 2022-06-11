@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const auth = require('../middlewares/auth'); // подключаем мидлвэру авторизации
+const auth = require('../middlewares/auth');
 
-const { getUser } = require('../controllers/users'); // импорт методов из контроллера
+const { getUser } = require('../controllers/users');
 
-router.use(auth); // вызываем авторизацию
-router.get('/me', getUser); // вызываем метод получения данных пользователя
+router.use(auth);
+router.get('/me', getUser);
 
 module.exports = router;

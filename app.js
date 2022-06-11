@@ -1,39 +1,38 @@
 require('dotenv').config();
-const express = require('express'); // модуль ноды для http сервера
-const cors = require('cors'); // модуль для настройки CORS-правил
-const rateLimit = require('express-rate-limit'); // модуль ноды для огранчиения кол-во запросов, защита от DDoS
-const helmet = require('helmet'); // модуль ноды для установки заголовков безопасности
-const mongoose = require('mongoose'); // модуль ноды для подключения сервера с базой данных
-const bodyParser = require('body-parser'); // модуль ноды для парсинга пост-запросов в нужный (json) формат
+const express = require('express');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoose = require('mongoose'); // for MONGO use
+const bodyParser = require('body-parser');
 
 const app = express();
 const { PORT = 3000 } = process.env;
 
-// подключаемся к серверу mongo
+// connect to MONGO-server
 mongoose.connect('mongodb://localhost:27017/news', {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
   useCreateIndex: true,
   useFindAndModify: false,
 });
 
-const { NotFoundError } = require('./helpers/errors'); // импорт конструкторов типовых ошибок
-const errhandler = require('./helpers/errhandler'); // импорт централизованного оработчика ошибок
-const routes = require('./routes/index.js'); // подключаем роутеры
-const { requestLogger, errorLogger } = require('./middlewares/logger'); // подключаем мидлваоу логгирования
+const { NotFoundError } = require('./helpers/errors');
+const errhandler = require('./helpers/errhandler');
+const routes = require('./routes/index.js');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const limiter = rateLimit({
-  windowMs: 60000, // 1 минута
-  max: 30, // можно совершить максимум 30 запросов с одного IP
+  windowMs: 60000, // 1min
+  max: 30, // max 30 requests per 1min
 });
 
 const whitelist = [
   'http://localhost:8080',
   'https://bimimot.github.io',
   'https://bimimot.github.io/',
-  'https://bimimot.github.io/News-frontend/',
-  'https://newsfinder.tk',
-  'http://newsfinder.tk',
-]; // настройка cors
+  'https://bimimot.github.io/news-frontend/',
+]; // cors list
 
 const corsOptions = {
   origin(origin, callback) {
@@ -46,24 +45,24 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(limiter); // подключаем защиту от DDoS
-app.use(helmet()); // устанавливаем заголовки безопасности
-app.use(bodyParser.json()); // подключаем сборку JSON-формата
+app.use(limiter); // DDoS defender
+app.use(helmet()); // headers for privacy
+app.use(bodyParser.json()); // JSON-parser
 
-app.use(requestLogger); // подключаем логирование запросов
+app.use(requestLogger); // add logger
 
-app.use('/api', routes); // подключаем api
+app.use('/api-news/', routes); // add routes
 
-app.use((req, res, next) => { // генерируем ошибку если запрос на несуществующую страницу
-  next(new NotFoundError('Такой ресурс не найден'));
+app.use((req, res, next) => { // 404 err
+  next(new NotFoundError('Sorry, but URL is wrong'));
 });
 
-app.use(errorLogger); // подключаем логирование ошибок
+app.use(errorLogger);
 
-// обработка ошибок, сюда переходим из блоков catch
+// add errHandler, it works after catch blocks
 app.use((err, req, res, next) => {
-  errhandler(err, res); // подключаем функцию централизованной обработки ошибок
+  errhandler(err, res); // middleware for errs
   next();
 });
 
-app.listen(PORT); // начинаем слушать заданный порт
+app.listen(PORT); // start listen our port

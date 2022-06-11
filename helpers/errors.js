@@ -1,41 +1,41 @@
 /* eslint max-classes-per-file: ["error", 6] */
 
-class BadFormatError extends Error { // данные переданы в неверном формате
+class BadFormatError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 400;
   }
 }
 
-class AuthError extends Error { // ошибка авторизации
+class AuthError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 401;
   }
 }
 
-class AccessDeniedError extends Error { // ошибка авторизации
+class AccessDeniedError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 403;
   }
 }
 
-class NotFoundError extends Error { // ресурс не найден
+class NotFoundError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 404;
   }
 }
 
-class DoubleDataError extends Error { // ресурс не найден
+class DoubleDataError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 409;
   }
 }
 
-class ServerError extends Error { // ресурс не найден
+class ServerError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 500;

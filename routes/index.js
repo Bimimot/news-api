@@ -1,11 +1,11 @@
 const router = require('express').Router();
 
-const articlesRouter = require('./articles.js'); // импортируем роутер для карточек
-const usersRouter = require('./users.js'); // импортируем роутер для данных о пользователях
-const signsRouter = require('./signs.js'); // импортируем роутер для получения прав пользователей - регистрация, авторизация
+const articlesRouter = require('./articles.js');
+const usersRouter = require('./users.js');
+const signsRouter = require('./signs.js');
 
-router.use('/users', usersRouter); // подключаем usersRouter
-router.use('/articles', articlesRouter); // подключаем usersRouter
-router.use('/', signsRouter); // подключаем signsRouter
+router.use('/users', usersRouter);
+router.use('/articles', articlesRouter);
+router.use('/', signsRouter);
 
 module.exports = router;

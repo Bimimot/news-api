@@ -1,4 +1,4 @@
-const { ServerError, BadFormatError, DoubleDataError } = require('./errors'); // импорт конструкторов типовых ошибок
+const { ServerError, BadFormatError, DoubleDataError } = require('./errors'); // import err constructors
 
 const { NODE_ENV } = process.env;
 
@@ -9,15 +9,15 @@ function errhandler(e, res) {
     || err.name === 'ValidationError'
     || (err.name === 'MongoError' && err.code !== 11000)) {
     err = new BadFormatError(
-      (NODE_ENV !== 'production') ? err : 'В запросе указаны неправильные данные', // для режима разработки возвращаем полный текст ошибки
+      (NODE_ENV !== 'production') ? err : 'Request data is not valid', // for dev-mode return full error
     );
   }
 
-  if (err.code === 11000) { err = new DoubleDataError('Пользователь с таким email уже существует'); }
+  if (err.code === 11000) { err = new DoubleDataError('Sorry, we have user with the same e-mail'); }
 
   if (!err.statusCode) {
     err = new ServerError(
-      (NODE_ENV !== 'production') ? err : 'На сервере произошла ошибка', // для режима разработки возвращаем полный текст ошибки
+      (NODE_ENV !== 'production') ? err : 'Sorry, we have an server error', // for dev-mode return full error
     );
   }
   return res.status(err.statusCode).send({ message: err.message, status: err.statusCode });
