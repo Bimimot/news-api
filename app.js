@@ -31,7 +31,7 @@ const whitelist = [
   'http://localhost:8080',
   'https://bimimot.github.io',
   'https://bimimot.github.io/',
-  'https://bimimot.github.io/news-frontend/',
+  'https://bimimot.github.io/news-finder/',
 ]; // cors list
 
 const corsOptions = {
